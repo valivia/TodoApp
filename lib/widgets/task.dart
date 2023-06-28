@@ -34,10 +34,6 @@ class TaskWidget extends StatelessWidget {
         ),
         title: Text(task.title),
         subtitle: Text('${task.streak} day streak'),
-        trailing: IconButton(
-          onPressed: () => {},
-          icon: const Icon(Icons.more_vert),
-        ),
       ),
     );
   }
