@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_flutter/views/create.dart';
 import 'package:todo_flutter/views/task.dart';
 
 class Task {
@@ -63,7 +64,10 @@ class TaskListWidget extends StatelessWidget {
             const Spacer(),
             FloatingActionButton(
               heroTag: 'addTask',
-              onPressed: () => {},
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CreateTaskView()),
+              ),
               tooltip: 'add',
               child: const Icon(Icons.add),
             ),
