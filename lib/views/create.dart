@@ -14,29 +14,35 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
     borderRadius: BorderRadius.all(Radius.circular(12.0)),
   );
 
+  final padding = 8.0;
+
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Wrap(
-        runSpacing: 16.0,
+      child: Column(
+        // runSpacing: 8.0,
         children: <Widget>[
           // Name
           TextFormField(
+            maxLength: 20,
             decoration: const InputDecoration(
               labelText: 'Name',
               hintText: 'E.g. Pushups',
               border: formBorder,
             ),
           ),
+          SizedBox(height: padding),
           // Question
           TextFormField(
+            maxLength: 50,
             decoration: const InputDecoration(
               labelText: 'Question',
               hintText: 'E.g. Did you do your daily pushups?',
               border: formBorder,
             ),
           ),
+          SizedBox(height: padding),
           // Target
           TextFormField(
             initialValue: "0",
@@ -48,6 +54,7 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
               border: formBorder,
             ),
           ),
+          SizedBox(height: padding),
           // Frequency
           TextFormField(
             keyboardType: TextInputType.number,
@@ -58,7 +65,24 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
             ),
           ),
           // Submit
-          const ElevatedButton(onPressed: null, child: Text('Submit')),
+          const Spacer(
+            flex: 2,
+          ),
+          ElevatedButton(
+            onPressed: () => {},
+            style: ButtonStyle(
+              minimumSize: MaterialStateProperty.all<Size>(
+                  const Size(double.infinity, 10)),
+              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20)),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100.0)),
+              ),
+            ),
+            child: const Text('Save',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+          ),
         ],
       ),
     );
@@ -73,7 +97,7 @@ class CreateTaskView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Create Task')),
       body: const Padding(
-        padding: EdgeInsets.all(32.0),
+        padding: EdgeInsets.all(16.0),
         child: CreateTaskForm(),
       ),
     );
