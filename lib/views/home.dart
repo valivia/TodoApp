@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_flutter/widgets/task.dart';
+import 'package:todo_flutter/widgets/pedometer.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -22,7 +23,8 @@ class _MyHomePageState extends State<MyHomePage> {
         shadowColor: Colors.transparent,
         backgroundColor: Theme.of(context).colorScheme.background,
       ),
-      body: TaskListWidget(tasks: tasks),
+      // body: TaskListWidget(tasks: tasks),
+      body: PedometerWidget(),
     );
   }
 }

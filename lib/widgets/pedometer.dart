@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:pedometer/pedometer.dart';
 
-class PedometerApp extends StatefulWidget {
+class PedometerWidget extends StatefulWidget {
   @override
-  _PedometerAppState createState() => _PedometerAppState();
+  _PedometerWidgetState createState() => _PedometerWidgetState();
 }
 
-class _PedometerAppState extends State<PedometerApp> {
+class _PedometerWidgetState extends State<PedometerWidget> {
   String _stepCount = '0';
   int _dailyStepCount = 0;
   int _totalStepCount = 0;
@@ -65,49 +65,36 @@ class _PedometerAppState extends State<PedometerApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Pedometer App'),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Step Count:',
+          style: TextStyle(fontSize: 24),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Step Count:',
-                style: TextStyle(fontSize: 24),
-              ),
-              Text(
-                _stepCount,
-                style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 16),
-              Text(
-                'Date: $_currentDate',
-                style: TextStyle(fontSize: 18),
-              ),
-              Text(
-                'Last Recorded Step Count: $_lastRecordedStepCount', // Show the totalStepCount
-                style: TextStyle(fontSize: 18),
-              ),
-              SizedBox(height: 16),
-              Text(
-                'Time Until Reset:',
-                style: TextStyle(fontSize: 18),
-              ),
-              Text(
-                formatDuration(_timeUntilReset),
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
+        Text(
+          _stepCount,
+          style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
         ),
-      ),
+        SizedBox(height: 16),
+        Text(
+          'Date: $_currentDate',
+          style: TextStyle(fontSize: 18),
+        ),
+        Text(
+          'Last Recorded Step Count: $_lastRecordedStepCount', // Show the totalStepCount
+          style: TextStyle(fontSize: 18),
+        ),
+        SizedBox(height: 16),
+        Text(
+          'Time Until Reset:',
+          style: TextStyle(fontSize: 18),
+        ),
+        Text(
+          formatDuration(_timeUntilReset),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+      ],
     );
   }
-}
-
-void main() {
-  runApp(PedometerApp());
 }
