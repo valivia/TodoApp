@@ -25,7 +25,7 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
         children: <Widget>[
           // Name
           TextFormField(
-            maxLength: 20,
+            maxLength: 20,  
             decoration: const InputDecoration(
               labelText: 'Name',
               hintText: 'E.g. Pushups',
