@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:pedometer/pedometer.dart';
 
 class PedometerWidget extends StatefulWidget {
+  const PedometerWidget({super.key});
+
   @override
   _PedometerWidgetState createState() => _PedometerWidgetState();
 }
@@ -15,7 +17,7 @@ class _PedometerWidgetState extends State<PedometerWidget> {
   String _currentDate = DateTime.now().toString().split(' ')[0];
   late Timer _dailyResetTimer;
   late StreamSubscription<StepCount> _stepCountStream;
-  Duration _timeUntilReset = Duration(minutes: 1);
+  Duration _timeUntilReset = const Duration(minutes: 1);
 
   @override
   void initState() {
@@ -34,16 +36,17 @@ class _PedometerWidgetState extends State<PedometerWidget> {
   }
 
   void startDailyResetTimer() {
-    _dailyResetTimer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
+    _dailyResetTimer =
+        Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       setState(() {
         if (_timeUntilReset.inSeconds > 0) {
-          _timeUntilReset -= Duration(seconds: 1);
+          _timeUntilReset -= const Duration(seconds: 1);
         } else {
           _totalStepCount +=
               _dailyStepCount; // Update the totalStepCount at the end of the timer
           _dailyStepCount = 0;
           _currentDate = DateTime.now().toString().split(' ')[0];
-          _timeUntilReset = Duration(minutes: 1);
+          _timeUntilReset = const Duration(minutes: 1);
           _lastRecordedStepCount = _stepCount;
         }
       });
@@ -68,31 +71,31 @@ class _PedometerWidgetState extends State<PedometerWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        const Text(
           'Step Count:',
           style: TextStyle(fontSize: 24),
         ),
         Text(
           _stepCount,
-          style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Text(
           'Date: $_currentDate',
-          style: TextStyle(fontSize: 18),
+          style: const TextStyle(fontSize: 18),
         ),
         Text(
           'Last Recorded Step Count: $_lastRecordedStepCount', // Show the totalStepCount
-          style: TextStyle(fontSize: 18),
+          style: const TextStyle(fontSize: 18),
         ),
-        SizedBox(height: 16),
-        Text(
+        const SizedBox(height: 16),
+        const Text(
           'Time Until Reset:',
           style: TextStyle(fontSize: 18),
         ),
         Text(
           formatDuration(_timeUntilReset),
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ],
     );

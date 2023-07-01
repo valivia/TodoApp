@@ -3,7 +3,7 @@ import 'package:todo_flutter/widgets/task.dart';
 import 'package:todo_flutter/widgets/pedometer.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
@@ -23,8 +23,16 @@ class _MyHomePageState extends State<MyHomePage> {
         shadowColor: Colors.transparent,
         backgroundColor: Theme.of(context).colorScheme.background,
       ),
-      // body: TaskListWidget(tasks: tasks),
-      body: PedometerWidget(),
+      body: Column(
+        children: [
+          Expanded(
+            child: TaskListWidget(tasks: tasks),
+          ),
+          const Expanded(
+            child: PedometerWidget(),
+          ),
+        ],
+      ),
     );
   }
 }
