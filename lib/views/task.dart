@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../db/task.dart';
+import '../widgets/date_selector.dart';
 
 class TaskView extends StatefulWidget {
   const TaskView({Key? key, required this.task, required this.refresh})
@@ -48,7 +49,7 @@ class _TaskViewState extends State<TaskView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            const SizedBox(width: double.infinity),
+            DateSelector(),
             streakText,
           ],
         ),
