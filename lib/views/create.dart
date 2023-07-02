@@ -1,50 +1,38 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import '../db/task.dart';
+import '../state/daily_tasks.dart';
 
-class CreateTaskForm extends StatefulWidget {
-  const CreateTaskForm({Key? key, required this.refresh}) : super(key: key);
-  final Function refresh;
-
-  Future<void> createTask(Task task) async {
-    await task.upsert();
-    if (kDebugMode) {
-      print(task);
-    }
-    refresh();
-  }
-
-  @override
-  State<CreateTaskForm> createState() => _CreateTaskFormState();
-}
-
-class _CreateTaskFormState extends State<CreateTaskForm> {
-  final _formKey = GlobalKey<FormState>();
+class CreateTaskForm extends StatelessWidget {
+  const CreateTaskForm({Key? key}) : super(key: key);
 
   static const formBorder = OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(12.0)),
   );
 
-  final padding = 8.0;
-
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _questionController = TextEditingController();
-  final TextEditingController _targetController = TextEditingController();
-  final TextEditingController _frequencyController = TextEditingController();
+  static const padding = 8.0;
 
   @override
   Widget build(BuildContext context) {
+    final dailytasks = Provider.of<DailyTasks>(context);
+
+    final formKey = GlobalKey<FormState>();
+    TextEditingController titleController = TextEditingController();
+    TextEditingController questionController = TextEditingController();
+    TextEditingController targetController = TextEditingController();
+    TextEditingController frequencyController = TextEditingController();
+
     return Form(
-      key: _formKey,
+      key: formKey,
       child: Column(
         // runSpacing: 8.0,
         children: <Widget>[
           // Name
           TextFormField(
             maxLength: 20,
-            controller: _titleController,
+            controller: titleController,
             validator: (value) => value!.isEmpty ? 'Please enter a name' : null,
             decoration: const InputDecoration(
               labelText: 'Name',
@@ -52,11 +40,11 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
               border: formBorder,
             ),
           ),
-          SizedBox(height: padding),
+          const SizedBox(height: padding),
           // Question
           TextFormField(
             maxLength: 50,
-            controller: _questionController,
+            controller: questionController,
             validator: (value) =>
                 value!.isEmpty ? 'Please enter a question' : null,
             decoration: const InputDecoration(
@@ -65,10 +53,10 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
               border: formBorder,
             ),
           ),
-          SizedBox(height: padding),
+          const SizedBox(height: padding),
           // Target
           TextFormField(
-            controller: _targetController,
+            controller: targetController,
             validator: (value) =>
                 value!.isEmpty ? 'Please enter a question' : null,
             keyboardType: TextInputType.number,
@@ -79,11 +67,11 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
               border: formBorder,
             ),
           ),
-          SizedBox(height: padding),
+          const SizedBox(height: padding),
           // Frequency
-          SizedBox(height: padding),
+          const SizedBox(height: padding),
           TextFormField(
-            controller: _frequencyController,
+            controller: frequencyController,
             validator: (value) =>
                 value!.isEmpty ? 'Please enter a question' : null,
             keyboardType: TextInputType.number,
@@ -100,15 +88,15 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
           ),
           ElevatedButton(
             onPressed: () {
-              if (_formKey.currentState!.validate()) {
+              if (formKey.currentState!.validate()) {
                 final task = Task(
-                  _titleController.text,
-                  _questionController.text,
-                  int.parse(_targetController.text),
-                  int.parse(_frequencyController.text),
+                  titleController.text,
+                  questionController.text,
+                  int.parse(targetController.text),
+                  int.parse(frequencyController.text),
                 );
 
-                widget.createTask(task);
+                dailytasks.addTask(task);
                 Navigator.pop(context);
               }
             },
@@ -132,16 +120,15 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
 }
 
 class CreateTaskView extends StatelessWidget {
-  const CreateTaskView({Key? key, required this.refresh}) : super(key: key);
-  final Function refresh;
+  const CreateTaskView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Create Task')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: CreateTaskForm(refresh: refresh),
+      body: const Padding(
+        padding: EdgeInsets.all(16.0),
+        child: CreateTaskForm(),
       ),
     );
   }

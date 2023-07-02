@@ -2,7 +2,7 @@ import '../db.dart';
 
 class Progress {
   // Fields
-  late int? _id;
+  int? _id;
   late int _taskId;
   late int _value;
   late DateTime _date;
@@ -10,6 +10,12 @@ class Progress {
   // Constructors
   Progress(
     this._id,
+    this._taskId,
+    this._value,
+    this._date,
+  );
+
+  Progress.fromTaskId(
     this._taskId,
     this._value,
     this._date,
@@ -43,7 +49,7 @@ class Progress {
 
     map['taskId'] = _taskId;
     map['value'] = _value;
-    map['date'] = _date.toIso8601String();
+    map['date'] = _date.millisecondsSinceEpoch;
 
     return map;
   }
@@ -67,5 +73,12 @@ class Progress {
   Future<void> delete() async {
     final db = await DbService.instance.database;
     await db.delete('progress', where: 'id = ?', whereArgs: [id]);
+  }
+
+  // Other methods
+
+  Future<void> complete() async {
+    value = 1;
+    await upsert();
   }
 }

@@ -17,9 +17,8 @@ class DateSelector extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           IconButton(
-            onPressed: () => dailytasks.setDate(dailytasks.date.subtract(
-              const Duration(days: 1),
-            )),
+            onPressed: () => dailytasks.date =
+                dailytasks.date.subtract(const Duration(days: 1)),
             icon: const Icon(Icons.chevron_left),
             iconSize: iconSize,
           ),
@@ -30,9 +29,8 @@ class DateSelector extends StatelessWidget {
           ),
           const Spacer(flex: 2),
           IconButton(
-            onPressed: () => dailytasks.setDate(dailytasks.date.add(
-              const Duration(days: 1),
-            )),
+            onPressed: () => dailytasks.date =
+                dailytasks.date.add(const Duration(days: 1)),
             icon: const Icon(Icons.chevron_right),
             iconSize: iconSize,
           ),

@@ -1,3 +1,8 @@
+import 'dart:ffi';
+
+import 'package:todo_flutter/db/progress.dart';
+import 'package:todo_flutter/state/daily_tasks.dart';
+
 import '../db.dart';
 
 class Task {
@@ -7,6 +12,7 @@ class Task {
   late String _question;
   late int _target;
   late int _frequency;
+  List<Progress> _progress = [];
 
   // Constructor
   Task(
@@ -22,6 +28,7 @@ class Task {
   String get question => _question;
   int get target => _target;
   int get frequency => _frequency;
+  List<Progress> get progress => _progress;
 
   // Setters
   set title(String newTitle) {
@@ -75,6 +82,20 @@ class Task {
   Future<void> delete() async {
     final db = await DbService.instance.database;
     await db.delete('task', where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<void> loadProgress() async {
+    final db = await DbService.instance.database;
+    final progress =
+        await db.query('progress', where: 'taskId = ?', whereArgs: [id]);
+    _progress = progress.map((entry) => Progress.fromMapObject(entry)).toList();
+  }
+
+  // Progress methods
+  Progress getProgress([DateTime? date]) {
+    date ??= DailyTasks.convertDate(DateTime.now());
+    final a = _progress.where((element) => element.date == date);
+    return a.isEmpty ? Progress.fromTaskId(_id!, 0, date) : a.first;
   }
 
   // Utility methods
