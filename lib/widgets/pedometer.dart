@@ -68,36 +68,34 @@ class _PedometerWidgetState extends State<PedometerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const Text(
-          'Step Count:',
-          style: TextStyle(fontSize: 24),
-        ),
-        Text(
-          _stepCount,
-          style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          'Date: $_currentDate',
-          style: const TextStyle(fontSize: 18),
-        ),
-        Text(
-          'Last Recorded Step Count: $_lastRecordedStepCount', // Show the totalStepCount
-          style: const TextStyle(fontSize: 18),
-        ),
-        const SizedBox(height: 16),
-        const Text(
-          'Time Until Reset:',
-          style: TextStyle(fontSize: 18),
-        ),
-        Text(
-          formatDuration(_timeUntilReset),
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-      ],
+    return SizedBox(
+      height: 200,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text(
+            'Step Count:',
+            style: TextStyle(fontSize: 24),
+          ),
+          Text(
+            _stepCount,
+            style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            'Last Recorded Step Count: $_lastRecordedStepCount', // Show the totalStepCount
+            style: const TextStyle(fontSize: 18),
+          ),
+          const SizedBox(height: 16),
+          const Text(
+            'Time Until Reset:',
+            style: TextStyle(fontSize: 18),
+          ),
+          Text(
+            formatDuration(_timeUntilReset),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
     );
   }
 }

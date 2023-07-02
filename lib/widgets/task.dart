@@ -1,81 +1,72 @@
 import 'package:flutter/material.dart';
-
-class Task {
-  const Task({
-    required this.id,
-    required this.title,
-    required this.streak,
-  });
-
-  final String id;
-  final String title;
-  final int streak;
-  final bool isCompleted = false;
-}
+import 'package:todo_flutter/views/task.dart';
+import '../db/task.dart';
 
 class TaskWidget extends StatelessWidget {
-  const TaskWidget({Key? key, required this.task}) : super(key: key);
-
+  const TaskWidget({Key? key, required this.task, required this.refresh})
+      : super(key: key);
   final Task task;
+  final Function refresh;
+  final progress = (
+    streak: 42,
+    current: 1,
+  );
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(100.0),
-      ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(8.0),
-        leading: FloatingActionButton(
-          onPressed: () => {},
-          tooltip: 'Complete',
-          child: const Icon(Icons.check),
-        ),
-        title: Text(task.title),
-        subtitle: Text('${task.streak} day streak'),
-      ),
-    );
-  }
-}
-
-class TaskListWidget extends StatelessWidget {
-  const TaskListWidget({Key? key, required this.tasks}) : super(key: key);
-
-  final List<Task> tasks;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(children: [
-        // Header
-        Row(
-          children: [
-            Text('Tasks', style: Theme.of(context).textTheme.headlineMedium),
-            const Spacer(),
-            FloatingActionButton(
-              onPressed: () => {},
-              tooltip: 'add',
-              child: const Icon(Icons.add),
+    Widget button;
+    // on/off Task
+    if (task.target > 1) {
+      button = Stack(
+        children: [
+          Center(child: Text('${progress.current}')),
+          Center(
+            child: SizedBox(
+              width: 48.0,
+              height: 48.0,
+              child: CircularProgressIndicator(
+                value: progress.current / task.target,
+                strokeWidth: 5,
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  Theme.of(context).colorScheme.primary,
+                ),
+              ),
             ),
-          ],
-        ),
-        const SizedBox(height: 24.0),
-        // Tasks
-        Expanded(
-          child: ListView.separated(
-            separatorBuilder: (context, index) => const SizedBox(height: 8.0),
-            itemCount: tasks.length,
-            itemBuilder: (context, index) {
-              return TaskWidget(
-                task: tasks[index],
-                key: ValueKey(tasks[index].id),
-              );
-            },
           ),
+        ],
+      );
+      // Counter task
+    } else {
+      button = FloatingActionButton(
+        heroTag: task.id,
+        onPressed: () => {},
+        tooltip: 'Complete',
+        child: const Icon(Icons.check),
+      );
+    }
+
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => TaskView(task: task, refresh: refresh)),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.circular(100.0),
         ),
-      ]),
+        child: ListTile(
+          contentPadding: const EdgeInsets.all(8.0),
+          leading: SizedBox(
+            width: 48.0,
+            height: 48.0,
+            child: button,
+          ),
+          title: Text(task.title),
+          subtitle: Text('${progress.streak} day streak'),
+        ),
+      ),
     );
   }
 }
