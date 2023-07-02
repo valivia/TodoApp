@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_flutter/widgets/task.dart';
+import '../db/task.dart';
 
 class TaskView extends StatefulWidget {
   const TaskView({Key? key, required this.task}) : super(key: key);
@@ -18,7 +18,7 @@ class _TaskViewState extends State<TaskView> {
         style: Theme.of(context).textTheme.headlineMedium,
         children: [
           TextSpan(
-            text: '${widget.task.streak}',
+            text: '${42}',
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
           ),
           const TextSpan(text: ' day streak'),
