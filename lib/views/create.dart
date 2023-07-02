@@ -1,7 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../db.dart';
 import '../db/task.dart';
 
 class CreateTaskForm extends StatefulWidget {
@@ -9,9 +9,10 @@ class CreateTaskForm extends StatefulWidget {
   final Function refresh;
 
   Future<void> createTask(Task task) async {
-    final db = await DbService.instance.database;
-    await db.insert('task', task.toMap());
-
+    await task.upsert();
+    if (kDebugMode) {
+      print(task);
+    }
     refresh();
   }
 

@@ -32,27 +32,23 @@ class TaskListWidget extends StatelessWidget {
       ],
     );
 
-    final list = Expanded(
-      child: ListView.separated(
-        separatorBuilder: (context, index) => const SizedBox(height: 8.0),
-        itemCount: tasks.length,
-        itemBuilder: (context, index) {
-          return TaskWidget(
-            task: tasks[index],
-            refresh: refresh,
-            key: ValueKey(tasks[index].id),
-          );
-        },
-      ),
+    final list = ListView.separated(
+      shrinkWrap: true,
+      separatorBuilder: (context, index) => const SizedBox(height: 8.0),
+      itemCount: tasks.length,
+      itemBuilder: (context, index) {
+        return TaskWidget(
+          task: tasks[index],
+          refresh: refresh,
+          key: ValueKey(tasks[index].id),
+        );
+      },
     );
 
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(children: [
-        header,
-        const SizedBox(height: 24.0),
-        list,
-      ]),
-    );
+    return Column(children: [
+      header,
+      const SizedBox(height: 24.0),
+      list,
+    ]);
   }
 }
