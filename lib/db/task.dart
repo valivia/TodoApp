@@ -1,3 +1,5 @@
+import '../db.dart';
+
 class Task {
   // Fields
   int? _id;
@@ -14,13 +16,6 @@ class Task {
     this._frequency,
   );
 
-  // Task.withId(
-  //   this._id,
-  //   this._title,
-  //   this._target,
-  //   this._frequency,
-  // );
-
   // Getters
   int? get id => _id;
   String get title => _title;
@@ -30,29 +25,22 @@ class Task {
 
   // Setters
   set title(String newTitle) {
-    if (newTitle.length <= 255) {
-      _title = newTitle;
-    }
+    _title = newTitle.substring(0, 21);
   }
 
   set question(String newQuestion) {
-    if (newQuestion.length <= 255) {
-      _question = newQuestion;
-    }
+    _question = newQuestion.substring(0, 51);
   }
 
   set target(int newTarget) {
-    if (newTarget >= 0) {
-      _target = newTarget;
-    }
+    _target = newTarget.clamp(0, double.infinity).toInt();
   }
 
   set frequency(int newFrequency) {
-    if (newFrequency >= 0) {
-      _frequency = newFrequency;
-    }
+    _frequency = newFrequency.clamp(0, double.infinity).toInt();
   }
 
+  // Database methods
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{};
     if (_id != null) {
@@ -73,5 +61,19 @@ class Task {
     _question = map['question'];
     _target = map['target'];
     _frequency = map['frequency'];
+  }
+
+  Future<void> upsert() async {
+    final db = await DbService.instance.database;
+    if (id == null) {
+      _id = await db.insert('task', toMap());
+    } else {
+      await db.update('task', toMap(), where: 'id = ?', whereArgs: [id]);
+    }
+  }
+
+  Future<void> delete() async {
+    final db = await DbService.instance.database;
+    await db.delete('task', where: 'id = ?', whereArgs: [id]);
   }
 }
