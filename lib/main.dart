@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_flutter/db.dart';
 import 'package:todo_flutter/theme/dark.dart';
 import './views/home.dart';
+import 'state/daily_tasks.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,10 +17,13 @@ class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: darkTheme,
-      home: const HomeView(),
+    return ChangeNotifierProvider(
+      create: (context) => DailyTasks(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: darkTheme,
+        home: const HomeView(),
+      ),
     );
   }
 }

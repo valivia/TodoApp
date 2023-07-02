@@ -1,8 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_flutter/db/task.dart';
+import 'package:todo_flutter/widgets/date_selector.dart';
 
 import '../db.dart';
+import '../state/daily_tasks.dart';
 import '../widgets/task_list.dart';
 
 class HomeView extends StatefulWidget {
@@ -29,14 +32,22 @@ class _HomeViewState extends State<HomeView> {
           appBar: AppBar(
             backgroundColor: Theme.of(context).colorScheme.surface,
           ),
-          body: TaskListWidget(
-            tasks: snapshot.data!,
-            refresh: () {
-              if (kDebugMode) print("refreshing");
-              setState(() {
-                _tasks = HomeView._fetchTasks();
-              });
-            },
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                const DateSelector(),
+                TaskListWidget(
+                  tasks: snapshot.data!,
+                  refresh: () {
+                    if (kDebugMode) print("refreshing");
+                    setState(() {
+                      _tasks = HomeView._fetchTasks();
+                    });
+                  },
+                ),
+              ],
+            ),
           ),
         );
 

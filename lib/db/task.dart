@@ -76,4 +76,10 @@ class Task {
     final db = await DbService.instance.database;
     await db.delete('task', where: 'id = ?', whereArgs: [id]);
   }
+
+  // Utility methods
+  @override
+  String toString() {
+    return 'Task{id: $id, title: $title, question: $question, target: $target, frequency: $frequency}';
+  }
 }
