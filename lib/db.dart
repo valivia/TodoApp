@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
@@ -22,13 +23,15 @@ class DbService {
   Future<Database> initDB() async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'task.db');
-    print('path is $path');
+    if (kDebugMode) {
+      print('path is $path');
+    }
     return await openDatabase(path, version: dbVersion, onCreate: _onCreate);
   }
 
   void _onCreate(Database db, int version) async {
     await db.execute(
-      'CREATE TABLE task(id INTEGER PRIMARY KEY, title TEXT, target INTEGER, frequency INTEGER)',
+      'CREATE TABLE task(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, question Text, target INTEGER, frequency INTEGER)',
     );
 
     await db.execute(

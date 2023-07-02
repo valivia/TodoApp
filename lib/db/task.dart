@@ -1,14 +1,15 @@
 class Task {
   // Fields
-  late int _id;
+  int? _id;
   late String _title;
+  late String _question;
   late int _target;
   late int _frequency;
 
   // Constructor
   Task(
-    this._id,
     this._title,
+    this._question,
     this._target,
     this._frequency,
   );
@@ -21,8 +22,9 @@ class Task {
   // );
 
   // Getters
-  int get id => _id;
+  int? get id => _id;
   String get title => _title;
+  String get question => _question;
   int get target => _target;
   int get frequency => _frequency;
 
@@ -30,6 +32,12 @@ class Task {
   set title(String newTitle) {
     if (newTitle.length <= 255) {
       _title = newTitle;
+    }
+  }
+
+  set question(String newQuestion) {
+    if (newQuestion.length <= 255) {
+      _question = newQuestion;
     }
   }
 
@@ -52,6 +60,7 @@ class Task {
     }
 
     map['title'] = _title;
+    map['question'] = _question;
     map['target'] = _target;
     map['frequency'] = _frequency;
 
@@ -61,6 +70,7 @@ class Task {
   Task.fromMapObject(Map<String, dynamic> map) {
     _id = map['id'];
     _title = map['title'];
+    _question = map['question'];
     _target = map['target'];
     _frequency = map['frequency'];
   }
