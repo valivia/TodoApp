@@ -1,28 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:todo_flutter/views/create.dart';
 import 'package:todo_flutter/views/task.dart';
-
-class Task {
-  const Task({
-    required this.id,
-    required this.title,
-    required this.streak,
-    required this.target,
-    required this.current,
-    required this.frequency,
-  });
-
-  final String id;
-  final String title;
-  final int target;
-  final int frequency;
-  final int current;
-  final int streak;
-}
+import '../db/task.dart';
 
 class TaskWidget extends StatelessWidget {
-  const TaskWidget({Key? key, required this.task}) : super(key: key);
+  const TaskWidget({Key? key, required this.task, required this.refresh})
+      : super(key: key);
   final Task task;
+  final Function refresh;
+  final progress = (
+    streak: 42,
+    current: 1,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +19,13 @@ class TaskWidget extends StatelessWidget {
     if (task.target > 1) {
       button = Stack(
         children: [
-          Center(child: Text('${task.current}')),
+          Center(child: Text('${progress.current}')),
           Center(
             child: SizedBox(
               width: 48.0,
               height: 48.0,
               child: CircularProgressIndicator(
-                value: task.current / task.target,
+                value: progress.current / task.target,
                 strokeWidth: 5,
                 valueColor: AlwaysStoppedAnimation<Color>(
                   Theme.of(context).colorScheme.primary,
@@ -60,7 +48,8 @@ class TaskWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => TaskView(task: task)),
+        MaterialPageRoute(
+            builder: (context) => TaskView(task: task, refresh: refresh)),
       ),
       child: Container(
         decoration: BoxDecoration(
@@ -75,58 +64,9 @@ class TaskWidget extends StatelessWidget {
             child: button,
           ),
           title: Text(task.title),
-          subtitle: Text('${task.streak} day streak'),
+          subtitle: Text('${progress.streak} day streak'),
         ),
       ),
-    );
-  }
-}
-
-class TaskListWidget extends StatelessWidget {
-  const TaskListWidget({Key? key, required this.tasks}) : super(key: key);
-
-  final List<Task> tasks;
-
-  @override
-  Widget build(BuildContext context) {
-    // Header
-    var header = Row(
-      children: [
-        Text('Tasks', style: Theme.of(context).textTheme.headlineMedium),
-        const Spacer(),
-        FloatingActionButton(
-          heroTag: 'addTask',
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const CreateTaskView()),
-          ),
-          tooltip: 'add',
-          child: const Icon(Icons.add),
-        ),
-      ],
-    );
-
-    // Tasks
-    var list = Expanded(
-      child: ListView.separated(
-        separatorBuilder: (context, index) => const SizedBox(height: 8.0),
-        itemCount: tasks.length,
-        itemBuilder: (context, index) {
-          return TaskWidget(
-            task: tasks[index],
-            key: ValueKey(tasks[index].id),
-          );
-        },
-      ),
-    );
-
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(children: [
-        header,
-        const SizedBox(height: 24.0),
-        list,
-      ]),
     );
   }
 }
