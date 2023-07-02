@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import '../db/task.dart';
+import '../state/task.dart';
 import '../state/daily_tasks.dart';
 
 class CreateTaskForm extends StatelessWidget {

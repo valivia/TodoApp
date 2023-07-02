@@ -3,7 +3,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 
-import 'db/task.dart';
+import 'state/task.dart';
 
 class DbService {
   DbService._internal() {
@@ -36,7 +36,7 @@ class DbService {
     );
 
     await db.execute(
-      'CREATE TABLE progress(id INTEGER PRIMARY KEY, taskId INTEGER, value INTEGER, date INTEGER, FOREIGN KEY(taskId) REFERENCES task(id))',
+      'CREATE TABLE progress(id INTEGER PRIMARY KEY, taskId INTEGER, value INTEGER, date INTEGER, FOREIGN KEY(taskId) REFERENCES task(id), UNIQUE(taskId, date) ON CONFLICT FAIL)',
     );
   }
 

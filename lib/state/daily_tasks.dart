@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:todo_flutter/db.dart';
 
-import '../db/task.dart';
+import 'task.dart';
 
 class DailyTasks extends ChangeNotifier {
   // Singleton
@@ -12,20 +12,20 @@ class DailyTasks extends ChangeNotifier {
   }
 
   DailyTasks._internal();
-  
+
   // Tasks
   List<Task> _tasks = [];
   List<Task> get tasks => _tasks;
 
   Future<void> addTask(Task task) async {
+    if (kDebugMode) print('added task ${task.id}');
     await task.upsert();
-    if (kDebugMode) print(task);
-
     _tasks.add(task);
     notifyListeners();
   }
 
   Future<void> removeTask(Task task) async {
+    if (kDebugMode) print('removed task ${task.id}');
     await task.delete();
     _tasks.remove(task);
     notifyListeners();
@@ -34,7 +34,9 @@ class DailyTasks extends ChangeNotifier {
   Future<List<Task>> loadTasks() async {
     if (kDebugMode) print("fetching tasks");
     _tasks = await DbService.instance.getTasks(date);
-    _tasks.map((task) => task.loadProgress());
+    for (var task in _tasks) {
+      await task.loadProgress();
+    }
     notifyListeners();
     return _tasks;
   }

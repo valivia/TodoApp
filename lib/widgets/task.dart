@@ -1,40 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_flutter/state/daily_tasks.dart';
 import 'package:todo_flutter/views/task.dart';
 import '../db/progress.dart';
-import '../db/task.dart';
+import '../state/task.dart';
 
 class TaskWidget extends StatelessWidget {
-  const TaskWidget({Key? key, required this.task}) : super(key: key);
-  final Task task;
+  const TaskWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final task = Provider.of<Task>(context);
+    final DailyTasks dailytasks = Provider.of<DailyTasks>(context);
     Widget button;
 
-    Progress progress = task.getProgress();
+    Progress progress = task.getProgress(dailytasks.date);
     // on/off Task
     if (task.target > 1) {
-      button = Stack(
-        children: [
-          Center(child: Text('${progress.value}')),
-          Center(
-            child: SizedBox(
-              width: 48.0,
-              height: 48.0,
-              child: CircularProgressIndicator(
-                value: progress.value / task.target,
-                strokeWidth: 5,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  Theme.of(context).colorScheme.primary,
+      button = GestureDetector(
+        onTap: () => task.complete(dailytasks.date).then((value) => null),
+        child: Stack(
+          children: [
+            Center(child: Text('${progress.value}')),
+            Center(
+              child: SizedBox(
+                width: 48.0,
+                height: 48.0,
+                child: CircularProgressIndicator(
+                  value: progress.value / task.target,
+                  strokeWidth: 5,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Theme.of(context).colorScheme.primary,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
       // Counter task
     } else {
-      bool isCompleted = progress.value > 0;
+      bool isCompleted = progress.value == task.target;
       button = Ink(
         decoration: ShapeDecoration(
           color: isCompleted
@@ -50,7 +56,7 @@ class TaskWidget extends StatelessWidget {
           ),
         ),
         child: IconButton(
-          onPressed: () => progress.complete(),
+          onPressed: () => task.complete(dailytasks.date).then((value) => null),
           tooltip: 'Complete',
           color: isCompleted
               ? Theme.of(context).colorScheme.onPrimary

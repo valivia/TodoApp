@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_flutter/state/task.dart';
 import 'package:todo_flutter/views/create.dart';
 import 'package:todo_flutter/widgets/task.dart';
 import '../state/daily_tasks.dart';
@@ -33,9 +34,11 @@ class TaskListWidget extends StatelessWidget {
       itemCount: dailytasks.tasks.length,
       itemBuilder: (context, index) {
         final task = dailytasks.tasks[index];
-        return TaskWidget(
-          task: task,
-          key: ValueKey(task.id),
+        return ChangeNotifierProvider<Task>.value(
+          value: task,
+          child: TaskWidget(
+            key: ValueKey(task.id),
+          ),
         );
       },
     );
