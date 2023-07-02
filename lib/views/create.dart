@@ -5,7 +5,15 @@ import '../db.dart';
 import '../db/task.dart';
 
 class CreateTaskForm extends StatefulWidget {
-  const CreateTaskForm({Key? key}) : super(key: key);
+  const CreateTaskForm({Key? key, required this.refresh}) : super(key: key);
+  final Function refresh;
+
+  Future<void> createTask(Task task) async {
+    final db = await DbService.instance.database;
+    await db.insert('task', task.toMap());
+
+    refresh();
+  }
 
   @override
   State<CreateTaskForm> createState() => _CreateTaskFormState();
@@ -19,18 +27,6 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
   );
 
   final padding = 8.0;
-
-  saveTask() async {
-    final db = await DbService.instance.database;
-    final task = Task(
-      _titleController.text,
-      _questionController.text,
-      int.parse(_targetController.text),
-      int.parse(_frequencyController.text),
-    );
-
-    await db.insert('task', task.toMap());
-  }
 
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _questionController = TextEditingController();
@@ -104,7 +100,14 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
           ElevatedButton(
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                saveTask();
+                final task = Task(
+                  _titleController.text,
+                  _questionController.text,
+                  int.parse(_targetController.text),
+                  int.parse(_frequencyController.text),
+                );
+
+                widget.createTask(task);
                 Navigator.pop(context);
               }
             },
@@ -128,15 +131,16 @@ class _CreateTaskFormState extends State<CreateTaskForm> {
 }
 
 class CreateTaskView extends StatelessWidget {
-  const CreateTaskView({Key? key}) : super(key: key);
+  const CreateTaskView({Key? key, required this.refresh}) : super(key: key);
+  final Function refresh;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Create Task')),
-      body: const Padding(
-        padding: EdgeInsets.all(16.0),
-        child: CreateTaskForm(),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: CreateTaskForm(refresh: refresh),
       ),
     );
   }

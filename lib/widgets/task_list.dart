@@ -4,14 +4,18 @@ import 'package:todo_flutter/widgets/task.dart';
 import '../db/task.dart';
 
 class TaskListWidget extends StatelessWidget {
-  const TaskListWidget({Key? key, required this.tasks}) : super(key: key);
+  const TaskListWidget({
+    Key? key,
+    required this.tasks,
+    required this.refresh,
+  }) : super(key: key);
 
+  final Function refresh;
   final List<Task> tasks;
 
   @override
   Widget build(BuildContext context) {
-    // Header
-    var header = Row(
+    final header = Row(
       children: [
         Text('Tasks', style: Theme.of(context).textTheme.headlineMedium),
         const Spacer(),
@@ -19,7 +23,8 @@ class TaskListWidget extends StatelessWidget {
           heroTag: 'addTask',
           onPressed: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const CreateTaskView()),
+            MaterialPageRoute(
+                builder: (context) => CreateTaskView(refresh: refresh)),
           ),
           tooltip: 'add',
           child: const Icon(Icons.add),
@@ -27,8 +32,7 @@ class TaskListWidget extends StatelessWidget {
       ],
     );
 
-    // Tasks
-    var list = Expanded(
+    final list = Expanded(
       child: ListView.separated(
         separatorBuilder: (context, index) => const SizedBox(height: 8.0),
         itemCount: tasks.length,
