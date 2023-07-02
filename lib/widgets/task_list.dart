@@ -39,6 +39,7 @@ class TaskListWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           return TaskWidget(
             task: tasks[index],
+            refresh: refresh,
             key: ValueKey(tasks[index].id),
           );
         },

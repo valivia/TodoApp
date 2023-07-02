@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import '../db/task.dart';
 
 class TaskView extends StatefulWidget {
-  const TaskView({Key? key, required this.task}) : super(key: key);
+  const TaskView({Key? key, required this.task, required this.refresh})
+      : super(key: key);
   final Task task;
+  final Function refresh;
 
   @override
   State<TaskView> createState() => _TaskViewState();
@@ -30,6 +32,16 @@ class _TaskViewState extends State<TaskView> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.task.title),
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                widget.task.delete().then((value) => {
+                      widget.refresh(),
+                      Navigator.pop(context),
+                    });
+              }),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

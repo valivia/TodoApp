@@ -3,8 +3,10 @@ import 'package:todo_flutter/views/task.dart';
 import '../db/task.dart';
 
 class TaskWidget extends StatelessWidget {
-  const TaskWidget({Key? key, required this.task}) : super(key: key);
+  const TaskWidget({Key? key, required this.task, required this.refresh})
+      : super(key: key);
   final Task task;
+  final Function refresh;
   final progress = (
     streak: 42,
     current: 1,
@@ -46,7 +48,8 @@ class TaskWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => TaskView(task: task)),
+        MaterialPageRoute(
+            builder: (context) => TaskView(task: task, refresh: refresh)),
       ),
       child: Container(
         decoration: BoxDecoration(
