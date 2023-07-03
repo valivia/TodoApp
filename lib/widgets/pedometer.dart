@@ -96,7 +96,7 @@ class _PedometerWidgetState extends State<PedometerWidget> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
@@ -104,6 +104,11 @@ class _PedometerWidgetState extends State<PedometerWidget> {
                 style: TextStyle(fontSize: 24),
               ),
               const SizedBox(height: 8),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               Text(
                 _stepCount,
                 style: const TextStyle(
@@ -111,11 +116,6 @@ class _PedometerWidgetState extends State<PedometerWidget> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
               Text(
                 ' / ',
                 style: TextStyle(fontSize: 24),
@@ -128,21 +128,6 @@ class _PedometerWidgetState extends State<PedometerWidget> {
                 ),
               ),
             ],
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: 16, top: 8),
-            child: Column(
-              children: [
-                Text(
-                  'Time until reset:',
-                  style: TextStyle(fontSize: 16),
-                ),
-                Text(
-                  timeUntilResetFormatted,
-                  style: TextStyle(fontSize: 20),
-                ),
-              ],
-            ),
           ),
           LinearProgressIndicator(
             value: progressPercentage,

@@ -5,7 +5,7 @@ import 'package:todo_flutter/widgets/pedometer.dart';
 import '../widgets/task_list.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+  const HomeView({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +20,7 @@ class HomeView extends StatelessWidget {
           children: [
             DateSelector(),
             PedometerWidget(),
+            SizedBox(height: 32.0),
             TaskListWidget(),
           ],
         ),
