@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_flutter/db/task.dart';
 import 'package:todo_flutter/widgets/date_selector.dart';
+import 'package:todo_flutter/widgets/pedometer.dart';
 
 import '../db.dart';
 import '../state/daily_tasks.dart';
@@ -37,6 +38,7 @@ class _HomeViewState extends State<HomeView> {
             child: Column(
               children: [
                 const DateSelector(),
+                PedometerWidget(),
                 TaskListWidget(
                   tasks: snapshot.data!,
                   refresh: () {
