@@ -42,16 +42,15 @@ class HomeView extends StatelessWidget {
             ),
           ],
         ),
-        body: const Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              DateSelector(),
-              PedometerWidget(),
-              SizedBox(height: 32.0),
-              TaskListWidget(),
-            ],
-          ),
+        body: ListView(
+          padding: const EdgeInsets.all(16.0),
+          shrinkWrap: true,
+          children: const [
+            DateSelector(),
+            PedometerWidget(),
+            SizedBox(height: 32.0),
+            TaskListWidget(),
+          ],
         ),
       ),
     );

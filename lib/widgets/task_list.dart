@@ -30,6 +30,7 @@ class TaskListWidget extends StatelessWidget {
 
     final list = ListView.separated(
       shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
       separatorBuilder: (context, index) => const SizedBox(height: 8.0),
       itemCount: dailytasks.tasks.length,
       itemBuilder: (context, index) {
