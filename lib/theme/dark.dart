@@ -17,5 +17,14 @@ final darkTheme = ThemeData(
     error: Color(0xFFCF6679),
     onError: Color(0xFF121212),
   ),
-  textTheme: const TextTheme(),
+  textTheme: const TextTheme(
+    headlineMedium: TextStyle(
+      fontSize: 28,
+      fontWeight: FontWeight.w900,
+    ),
+    headlineSmall: TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.w600,
+    ),
+  ),
 );

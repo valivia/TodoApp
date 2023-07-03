@@ -56,7 +56,7 @@ class TaskView extends StatelessWidget {
           padding: pagePadding,
           children: [
             const DateSelector(),
-            streakText,
+            Center(child: streakText),
           ],
         ),
       ),

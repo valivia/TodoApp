@@ -47,8 +47,9 @@ class HomeView extends StatelessWidget {
           shrinkWrap: true,
           children: const [
             DateSelector(),
+            SizedBox(height: 16.0),
             PedometerWidget(),
-            SizedBox(height: 32.0),
+            SizedBox(height: 16.0),
             TaskListWidget(),
           ],
         ),
