@@ -30,6 +30,7 @@ class CreateTaskForm extends StatelessWidget {
         children: <Widget>[
           // Name
           TextFormField(
+            textCapitalization: TextCapitalization.sentences,
             maxLength: 20,
             controller: titleController,
             validator: (value) => value!.isEmpty ? 'Please enter a name' : null,
@@ -42,6 +43,7 @@ class CreateTaskForm extends StatelessWidget {
           const SizedBox(height: padding),
           // Question
           TextFormField(
+            textCapitalization: TextCapitalization.sentences,
             maxLength: 50,
             controller: questionController,
             validator: (value) =>
