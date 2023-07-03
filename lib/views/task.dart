@@ -52,15 +52,12 @@ class TaskView extends StatelessWidget {
             ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const DateSelector(),
-              streakText,
-            ],
-          ),
+        body: ListView(
+          padding: pagePadding,
+          children: [
+            const DateSelector(),
+            streakText,
+          ],
         ),
       ),
     );

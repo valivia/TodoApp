@@ -43,7 +43,7 @@ class HomeView extends StatelessWidget {
           ],
         ),
         body: ListView(
-          padding: const EdgeInsets.all(16.0),
+          padding: pagePadding,
           shrinkWrap: true,
           children: const [
             DateSelector(),

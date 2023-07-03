@@ -22,7 +22,7 @@ class SettingsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(shape: rounded),
       body: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: pagePadding,
           child: Form(
             key: formKey,
             child: Column(

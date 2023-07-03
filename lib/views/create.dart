@@ -71,7 +71,6 @@ class CreateTaskForm extends StatelessWidget {
           ),
           const SizedBox(height: padding),
           // Frequency
-          const SizedBox(height: padding),
           TextFormField(
             controller: frequencyController,
             validator: (value) =>
@@ -132,7 +131,7 @@ class CreateTaskView extends StatelessWidget {
         shape: rounded,
       ),
       body: const Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: pagePadding,
         child: CreateTaskForm(),
       ),
     );
