@@ -10,8 +10,8 @@ class TaskWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final task = Provider.of<Task>(context);
     final DailyTasks dailytasks = Provider.of<DailyTasks>(context);
+    final task = Provider.of<Task>(context);
     Widget button;
 
     Progress progress = task.getProgress(dailytasks.date);
@@ -83,7 +83,7 @@ class TaskWidget extends StatelessWidget {
             child: button,
           ),
           title: Text(task.title),
-          subtitle: Text('100 day streak'),
+          subtitle: task.streak > 0 ? Text('${task.streak} day streak') : const Text(""),
         ),
       ),
     );
