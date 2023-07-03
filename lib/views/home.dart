@@ -52,7 +52,6 @@ class HomeView extends StatelessWidget {
             children: [
               ListView(
                 padding: pagePadding,
-                shrinkWrap: true,
                 children: const [
                   DateSelector(),
                   SizedBox(height: 16),

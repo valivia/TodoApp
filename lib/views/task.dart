@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_flutter/util.dart';
+import 'package:todo_flutter/widgets/streaks.dart';
 import '../state/task.dart';
 import '../state/daily_tasks.dart';
 import '../widgets/date_selector.dart';
@@ -26,7 +28,6 @@ class TaskView extends StatelessWidget {
         ],
       ),
     );
-
     // view
     return GestureDetector(
       onHorizontalDragEnd: (details) {
@@ -57,6 +58,8 @@ class TaskView extends StatelessWidget {
           children: [
             const DateSelector(),
             Center(child: streakText),
+            const SizedBox(height: 16),
+            StreakDisplayWidget(task: task),
           ],
         ),
       ),
