@@ -51,14 +51,17 @@ class _PedometerWidgetState extends State<PedometerWidget> {
     _dailyResetTimer =
         Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       setState(() {
-        if (_timeUntilReset.inSeconds > 0) {
-          _timeUntilReset -= const Duration(seconds: 1);
+        DateTime now = DateTime.now();
+        DateTime tomorrow = DateTime(now.year, now.month, now.day + 1);
+        Duration timeUntilReset = tomorrow.difference(now);
+        if (timeUntilReset.inSeconds > 0) {
+          timeUntilReset -= const Duration(seconds: 1);
         } else {
           _totalStepCount +=
               _dailyStepCount; // Update the totalStepCount at the end of the timer
           _dailyStepCount = 0;
           _currentDate = DateTime.now().toString().split(' ')[0];
-          _timeUntilReset = const Duration(minutes: 1);
+          timeUntilReset = tomorrow.difference(DateTime.now());
           _lastRecordedStepCount = _stepCount;
         }
       });
@@ -86,6 +89,8 @@ class _PedometerWidgetState extends State<PedometerWidget> {
   }
 
   Widget build(BuildContext context) {
+    String timeUntilResetFormatted = formatDuration(_timeUntilReset);
+
     return SizedBox(
       height: 100,
       child: Column(
@@ -98,37 +103,52 @@ class _PedometerWidgetState extends State<PedometerWidget> {
                 'Step Count:',
                 style: TextStyle(fontSize: 24),
               ),
+              const SizedBox(height: 8),
+              Text(
+                _stepCount,
+                style: const TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ],
           ),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                ' / ',
+                style: TextStyle(fontSize: 24),
+              ),
+              Text(
+                '6000', // Replace with your step goal value
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: 16, top: 8),
+            child: Column(
               children: [
                 Text(
-                  _stepCount,
-                  style: const TextStyle(
-                      fontSize: 36, fontWeight: FontWeight.bold),
-                ),
-                const Text(
-                  ' / ',
-                  style: TextStyle(fontSize: 24),
+                  'Time until reset:',
+                  style: TextStyle(fontSize: 16),
                 ),
                 Text(
-                  '6000', // Replace with your step goal value
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold),
+                  timeUntilResetFormatted,
+                  style: TextStyle(fontSize: 20),
                 ),
               ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(bottom: 16, top: 8),
-            child: LinearProgressIndicator(
-              value: progressPercentage,
-              backgroundColor: Colors.grey,
-              valueColor: AlwaysStoppedAnimation<Color>(
-                Theme.of(context).colorScheme.primary,
-              ),
+          LinearProgressIndicator(
+            value: progressPercentage,
+            backgroundColor: Colors.grey,
+            valueColor: AlwaysStoppedAnimation<Color>(
+              Theme.of(context).colorScheme.primary,
             ),
           ),
         ],
