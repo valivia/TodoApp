@@ -4,7 +4,7 @@ class TextDisplayWidget extends StatelessWidget {
   final String text;
   final Function onTap;
 
-  const TextDisplayWidget({required this.text, required this.onTap});
+  const TextDisplayWidget({super.key, required this.text, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +20,17 @@ class TextDisplayWidget extends StatelessWidget {
           },
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: Theme.of(context).colorScheme.onSurface,
+                width: 1,
+              ),
               color: Theme.of(context).colorScheme.surface,
             ),
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Text(
               text,
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 16),
             ),
           ),
         ),

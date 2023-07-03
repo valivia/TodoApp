@@ -5,7 +5,7 @@ import 'package:todo_flutter/views/settings.dart';
 import 'package:todo_flutter/widgets/date_selector.dart';
 import 'package:todo_flutter/widgets/pedometer.dart';
 
-import '../widgets/TextDisplayWidget.dart';
+import '../widgets/popup.dart';
 import '../state/daily_tasks.dart';
 import '../widgets/task_list.dart';
 
@@ -45,7 +45,7 @@ class HomeView extends StatelessWidget {
             ),
           ],
         ),
-        body: Container(
+        body: SizedBox(
           width: double.infinity,
           height: double.infinity,
           child: Stack(
@@ -57,7 +57,7 @@ class HomeView extends StatelessWidget {
                   DateSelector(),
                   SizedBox(height: 16),
                   PedometerWidget(),
-                  SizedBox(height: 16.0),
+                  SizedBox(height: 16),
                   TaskListWidget(),
                 ],
               ),
