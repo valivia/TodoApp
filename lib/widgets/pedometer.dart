@@ -17,11 +17,8 @@ class _PedometerWidgetState extends State<PedometerWidget> {
   String _stepCount = '0';
   int _dailyStepCount = 0;
   int _totalStepCount = 0;
-  String _lastRecordedStepCount = '0';
-  String _currentDate = DateTime.now().toString().split(' ')[0];
   late Timer _dailyResetTimer;
   late StreamSubscription<StepCount> _stepCountStream;
-  Duration _timeUntilReset = const Duration(minutes: 1);
 
   void requestPermission() async {
     PermissionStatus status = await Permission.activityRecognition.request();
@@ -63,9 +60,8 @@ class _PedometerWidgetState extends State<PedometerWidget> {
           _totalStepCount +=
               _dailyStepCount; // Update the totalStepCount at the end of the timer
           _dailyStepCount = 0;
-          _currentDate = DateTime.now().toString().split(' ')[0];
+
           timeUntilReset = tomorrow.difference(DateTime.now());
-          _lastRecordedStepCount = _stepCount;
         }
       });
     });
@@ -84,8 +80,8 @@ class _PedometerWidgetState extends State<PedometerWidget> {
     return '$minutes:$seconds';
   }
 
+  @override
   Widget build(BuildContext context) {
-    String timeUntilResetFormatted = formatDuration(_timeUntilReset);
     final dailytasks = Provider.of<DailyTasks>(context);
 
     return SizedBox(
