@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:pedometer/pedometer.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
+
+import '../state/daily_tasks.dart';
 
 class PedometerWidget extends StatefulWidget {
   const PedometerWidget({super.key});
@@ -81,29 +84,23 @@ class _PedometerWidgetState extends State<PedometerWidget> {
     return '$minutes:$seconds';
   }
 
-  @override
-  double get progressPercentage {
-    double stepCount = double.parse(_stepCount);
-    double stepGoal = 6000; // Replace with your step goal value
-    return stepCount / stepGoal;
-  }
-
   Widget build(BuildContext context) {
     String timeUntilResetFormatted = formatDuration(_timeUntilReset);
+    final dailytasks = Provider.of<DailyTasks>(context);
 
     return SizedBox(
       height: 100,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
+              Text(
                 'Step Count:',
                 style: TextStyle(fontSize: 24),
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
             ],
           ),
           Row(
@@ -116,12 +113,12 @@ class _PedometerWidgetState extends State<PedometerWidget> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
+              const Text(
                 ' / ',
                 style: TextStyle(fontSize: 24),
               ),
               Text(
-                '6000', // Replace with your step goal value
+                dailytasks.stepTarget.toString(),
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -130,7 +127,7 @@ class _PedometerWidgetState extends State<PedometerWidget> {
             ],
           ),
           LinearProgressIndicator(
-            value: progressPercentage,
+            value: int.parse(_stepCount) / dailytasks.stepTarget,
             backgroundColor: Colors.grey,
             valueColor: AlwaysStoppedAnimation<Color>(
               Theme.of(context).colorScheme.primary,

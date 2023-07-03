@@ -13,14 +13,6 @@ class DailyTasks extends ChangeNotifier {
 
   DailyTasks._internal();
 
-  // Steps
-  int _steps = 0;
-  int get steps => _steps;
-  set steps(int steps) {
-    _steps = steps;
-    notifyListeners();
-  }
-
   int _stepTarget = 10000;
   int get stepTarget => _stepTarget;
   set stepTarget(int stepTarget) {
