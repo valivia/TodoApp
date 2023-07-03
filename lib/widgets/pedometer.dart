@@ -68,19 +68,6 @@ class _PedometerWidgetState extends State<PedometerWidget> {
   }
 
   @override
-  void dispose() {
-    _stepCountStream.cancel();
-    _dailyResetTimer.cancel();
-    super.dispose();
-  }
-
-  String formatDuration(Duration duration) {
-    String minutes = (duration.inMinutes % 60).toString().padLeft(2, '0');
-    String seconds = (duration.inSeconds % 60).toString().padLeft(2, '0');
-    return '$minutes:$seconds';
-  }
-
-  @override
   Widget build(BuildContext context) {
     final dailytasks = Provider.of<DailyTasks>(context);
 
