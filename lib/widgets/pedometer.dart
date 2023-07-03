@@ -100,6 +100,12 @@ class _PedometerWidgetState extends State<PedometerWidget> {
 //   }
 // }
 
+  double get progressPercentage {
+    double stepCount = double.parse(_stepCount);
+    double stepGoal = 6000; // Replace with your step goal value
+    return stepCount / stepGoal;
+  }
+
   Widget build(BuildContext context) {
     return SizedBox(
       height: 100,
@@ -129,11 +135,21 @@ class _PedometerWidgetState extends State<PedometerWidget> {
                   style: TextStyle(fontSize: 24),
                 ),
                 Text(
-                  '10,000', // Replace with your step goal value
+                  '6000', // Replace with your step goal value
                   style: const TextStyle(
                       fontSize: 24, fontWeight: FontWeight.bold),
                 ),
               ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: 16, top: 8),
+            child: LinearProgressIndicator(
+              value: progressPercentage,
+              backgroundColor: Colors.grey,
+              valueColor: AlwaysStoppedAnimation<Color>(
+                Theme.of(context).colorScheme.primary,
+              ),
             ),
           ),
         ],
