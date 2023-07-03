@@ -208,9 +208,7 @@ class Task extends ChangeNotifier {
       date = date.subtract(day);
     }
 
-    if (currentStreak.duration > 0) {
-      streaks.add(currentStreak);
-    }
+    resetStreak();
 
     return streaks;
   }
