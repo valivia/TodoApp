@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:todo_flutter/db/progress.dart';
-import 'package:todo_flutter/state/daily_tasks.dart';
 
 import '../db.dart';
 
