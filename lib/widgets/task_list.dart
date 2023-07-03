@@ -14,7 +14,7 @@ class TaskListWidget extends StatelessWidget {
 
     final header = Row(
       children: [
-        Text('Tasks', style: Theme.of(context).textTheme.headlineMedium),
+        Text('Daily Tasks', style: Theme.of(context).textTheme.headlineMedium),
         const Spacer(),
         FloatingActionButton(
           heroTag: 'addTask',

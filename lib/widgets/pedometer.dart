@@ -73,48 +73,49 @@ class _PedometerWidgetState extends State<PedometerWidget> {
 
     return SizedBox(
       height: 100,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Step Count:',
-                style: TextStyle(fontSize: 24),
-              ),
-              SizedBox(height: 8),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                _stepCount,
-                style: const TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
+          // Progress ring
+          SizedBox(
+            height: 96,
+            width: 96,
+            child: Stack(children: [
+              Center(
+                child: SizedBox(
+                  height: 96,
+                  width: 96,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 10,
+                    value: _dailyStepCount / dailytasks.stepTarget,
+                  ),
                 ),
               ),
-              const Text(
-                ' / ',
-                style: TextStyle(fontSize: 24),
-              ),
-              Text(
-                dailytasks.stepTarget.toString(),
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+              Center(
+                child: Text(
+                  _dailyStepCount.toString(),
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
-            ],
+            ]),
           ),
-          LinearProgressIndicator(
-            value: int.parse(_stepCount) / dailytasks.stepTarget,
-            backgroundColor: Colors.grey,
-            valueColor: AlwaysStoppedAnimation<Color>(
-              Theme.of(context).colorScheme.primary,
-            ),
+
+          const SizedBox(width: 24),
+
+          // Detail
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Daily Step Goal',
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              Text(
+                '$_stepCount / ${dailytasks.stepTarget}',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            ],
           ),
         ],
       ),

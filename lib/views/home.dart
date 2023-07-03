@@ -61,23 +61,12 @@ class HomeView extends StatelessWidget {
                 ],
               ),
               if (showTextWidget)
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        dailytasks.date = today;
-                      },
-                      child: const TextDisplayWidget(
-                        text:
-                            "You're looking at a previous date. Click here to return to the current day.",
-                      ),
-                    ),
-                  ),
-                ),
+                TextDisplayWidget(
+                    onTap: () {
+                      dailytasks.date = today;
+                    },
+                    text:
+                        "You're looking at a previous date. Click here to return to the current day.")
             ],
           ),
         ),
