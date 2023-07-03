@@ -5,6 +5,7 @@ import 'package:todo_flutter/views/settings.dart';
 import 'package:todo_flutter/widgets/date_selector.dart';
 import 'package:todo_flutter/widgets/pedometer.dart';
 
+import '../widgets/TextDisplayWidget.dart';
 import '../state/daily_tasks.dart';
 import '../widgets/task_list.dart';
 
@@ -14,8 +15,10 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dailytasks = Provider.of<DailyTasks>(context);
-    // View
-    final view = GestureDetector(
+    DateTime today = DailyTasks.convertDate(DateTime.now());
+    bool showTextWidget = dailytasks.date != today;
+
+    return GestureDetector(
       onHorizontalDragEnd: (details) {
         int sensitivity = 200;
         if (details.velocity.pixelsPerSecond.dx > sensitivity) {
@@ -42,19 +45,43 @@ class HomeView extends StatelessWidget {
             ),
           ],
         ),
-        body: ListView(
-          padding: pagePadding,
-          shrinkWrap: true,
-          children: const [
-            DateSelector(),
-            PedometerWidget(),
-            SizedBox(height: 32.0),
-            TaskListWidget(),
-          ],
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          child: Stack(
+            children: [
+              ListView(
+                padding: pagePadding,
+                shrinkWrap: true,
+                children: const [
+                  DateSelector(),
+                  PedometerWidget(),
+                  SizedBox(height: 32.0),
+                  TaskListWidget(),
+                ],
+              ),
+              if (showTextWidget)
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        dailytasks.date = today;
+                      },
+                      child: const TextDisplayWidget(
+                        text:
+                            "You're looking at a previous date. Click here to return to the current day.",
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );
-
-    return view;
   }
 }
