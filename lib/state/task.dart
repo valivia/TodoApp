@@ -212,10 +212,6 @@ class Task extends ChangeNotifier {
       streaks.add(currentStreak);
     }
 
-    for (var streak in streaks) {
-      print(streak);
-    }
-
     return streaks;
   }
 
