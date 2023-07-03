@@ -61,7 +61,7 @@ class Progress {
   }
 
   Future<void> upsert() async {
-    final db = await DbService.instance.database;
+    final db = await DbService().database;
     if (kDebugMode) print('Progress.upsert(): $this');
     if (id == null) {
       _id = await db.insert('progress', toMap());
@@ -71,7 +71,7 @@ class Progress {
   }
 
   Future<void> delete() async {
-    final db = await DbService.instance.database;
+    final db = await DbService().database;
     await db.delete('progress', where: 'id = ?', whereArgs: [id]);
   }
 

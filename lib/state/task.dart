@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:todo_flutter/db/progress.dart';
+import 'package:todo_flutter/db/streak.dart';
 import 'package:todo_flutter/state/daily_tasks.dart';
 
 import '../db.dart';
@@ -73,7 +74,7 @@ class Task extends ChangeNotifier {
   }
 
   Future<void> upsert() async {
-    final db = await DbService.instance.database;
+    final db = await DbService().database;
     if (id == null) {
       _id = await db.insert('task', toMap());
     } else {
@@ -82,14 +83,14 @@ class Task extends ChangeNotifier {
   }
 
   Future<void> delete() async {
-    final db = await DbService.instance.database;
+    final db = await DbService().database;
     await db.delete('task', where: 'id = ?', whereArgs: [id]);
   }
 
   // Progress
   Future<void> loadProgress() async {
     if (kDebugMode) print("Loading progress for task $id");
-    final db = await DbService.instance.database;
+    final db = await DbService().database;
     final progress = await db.query('progress',
         where: 'taskId = ?', whereArgs: [id], orderBy: 'date DESC');
     _progress = progress.map((entry) => Progress.fromMapObject(entry)).toList();
@@ -153,21 +154,63 @@ class Task extends ChangeNotifier {
     DateTime today = DailyTasks.convertDate(DateTime.now());
     DateTime date = today;
     for (var progress in _progress) {
-      if (progress.date == date) {
-        if (progress.value == _target) {
-          streak++;
-        } else {
-          if (progress.date == today) {
-            date = date.subtract(const Duration(days: 1));
-            continue;
-          }
-          break;
+      if (progress.date != date) continue;
+      if (progress.value == _target) {
+        streak++;
+      } else {
+        if (progress.date == today) {
+          date = date.subtract(const Duration(days: 1));
+          continue;
         }
-        date = date.subtract(const Duration(days: 1));
+        break;
       }
+      date = date.subtract(const Duration(days: 1));
     }
     if (streak == 1) streak = 0;
     return streak;
+  }
+
+  List<Streak> getStreaks() {
+    List<Streak> streaks = [];
+    DateTime today = DailyTasks.convertDate(DateTime.now());
+    DateTime date = today;
+    Streak currentStreak = Streak.fromEndDate(today);
+    const day = Duration(days: 1);
+
+    void resetStreak() {
+      if (currentStreak.duration > 0) {
+        currentStreak.start = date.add(day);
+        streaks.add(currentStreak);
+      }
+      currentStreak = Streak.fromEndDate(date.subtract(day));
+    }
+
+    for (var progress in _progress) {
+      // If the progress is not for the current date, subtract a day and reset.
+      if (progress.date != date) {
+        resetStreak();
+        date = date.subtract(day);
+      }
+
+      // If the progress is for the current date, increment the streak.
+      if (progress.value == _target) {
+        currentStreak.duration++;
+      } else {
+        // If the progress is not complete, reset the streak.
+        if (progress.date == today) {
+          date = date.subtract(day);
+          continue;
+        } else {
+          resetStreak();
+        }
+      }
+
+      date = date.subtract(day);
+    }
+
+    resetStreak();
+
+    return streaks;
   }
 
   // Utility methods

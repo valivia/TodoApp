@@ -6,12 +6,11 @@ import 'task.dart';
 class DailyTasks extends ChangeNotifier {
   // Singleton
   static final DailyTasks _singleton = DailyTasks._internal();
+  DailyTasks._internal();
 
   factory DailyTasks() {
     return _singleton;
   }
-
-  DailyTasks._internal();
 
   int _stepTarget = 10000;
   int get stepTarget => _stepTarget;
@@ -40,7 +39,7 @@ class DailyTasks extends ChangeNotifier {
 
   Future<List<Task>> loadTasks() async {
     if (kDebugMode) print("fetching tasks");
-    _tasks = await DbService.instance.getTasks(date);
+    _tasks = await DbService().getTasks(date);
     for (var task in _tasks) {
       await task.loadProgress();
     }

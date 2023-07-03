@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_flutter/util.dart';
 import '../state/daily_tasks.dart';
 
 class SettingsView extends StatelessWidget {
@@ -19,9 +20,9 @@ class SettingsView extends StatelessWidget {
         TextEditingController(text: dailytasks.stepTarget.toString());
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(shape: rounded),
       body: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: pagePadding,
           child: Form(
             key: formKey,
             child: Column(

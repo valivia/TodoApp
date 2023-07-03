@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_flutter/util.dart';
 
 import '../state/task.dart';
 import '../state/daily_tasks.dart';
@@ -59,7 +60,7 @@ class CreateTaskForm extends StatelessWidget {
           TextFormField(
             controller: targetController,
             validator: (value) =>
-                value!.isEmpty ? 'Please enter a question' : null,
+                value!.isEmpty ? 'Please enter a target' : null,
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: const InputDecoration(
@@ -70,19 +71,18 @@ class CreateTaskForm extends StatelessWidget {
           ),
           const SizedBox(height: padding),
           // Frequency
-          const SizedBox(height: padding),
-          TextFormField(
-            controller: frequencyController,
-            validator: (value) =>
-                value!.isEmpty ? 'Please enter a question' : null,
-            keyboardType: TextInputType.number,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            decoration: const InputDecoration(
-              labelText: 'Frequency',
-              hintText: 'Every X days',
-              border: formBorder,
-            ),
-          ),
+          // TextFormField(
+          //   controller: frequencyController,
+          //   validator: (value) =>
+          //       value!.isEmpty ? 'Please enter a question' : null,
+          //   keyboardType: TextInputType.number,
+          //   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          //   decoration: const InputDecoration(
+          //     labelText: 'Frequency',
+          //     hintText: 'Every X days',
+          //     border: formBorder,
+          //   ),
+          // ),
           // Submit
           const Spacer(
             flex: 2,
@@ -94,7 +94,8 @@ class CreateTaskForm extends StatelessWidget {
                   titleController.text,
                   questionController.text,
                   int.parse(targetController.text),
-                  int.parse(frequencyController.text),
+                  // int.parse(frequencyController.text),
+                  1,
                 );
 
                 dailytasks.addTask(task);
@@ -126,9 +127,12 @@ class CreateTaskView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Create Task')),
+      appBar: AppBar(
+        title: const Text('Create Task'),
+        shape: rounded,
+      ),
       body: const Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: pagePadding,
         child: CreateTaskForm(),
       ),
     );

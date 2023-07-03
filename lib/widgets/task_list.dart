@@ -14,13 +14,13 @@ class TaskListWidget extends StatelessWidget {
 
     final header = Row(
       children: [
-        Text('Tasks', style: Theme.of(context).textTheme.headlineMedium),
+        Text('Daily Tasks', style: Theme.of(context).textTheme.headlineMedium),
         const Spacer(),
         FloatingActionButton(
           heroTag: 'addTask',
           onPressed: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => CreateTaskView()),
+            MaterialPageRoute(builder: (context) => const CreateTaskView()),
           ),
           tooltip: 'add',
           child: const Icon(Icons.add),
@@ -30,6 +30,7 @@ class TaskListWidget extends StatelessWidget {
 
     final list = ListView.separated(
       shrinkWrap: true,
+      physics: const ClampingScrollPhysics(),
       separatorBuilder: (context, index) => const SizedBox(height: 8.0),
       itemCount: dailytasks.tasks.length,
       itemBuilder: (context, index) {
