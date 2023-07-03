@@ -6,13 +6,16 @@ import 'dart:async';
 import 'state/task.dart';
 
 class DbService {
-  DbService._internal() {
-    // if (_database == null) database;
+  // Singleton
+  static final DbService _singleton = DbService._internal();
+  DbService._internal();
+
+  factory DbService() {
+    return _singleton;
   }
 
-  static final DbService instance = DbService._internal();
+  // Database
   static Database? _database;
-
   static const dbVersion = 1;
 
   Future<Database> get database async {
@@ -30,7 +33,7 @@ class DbService {
     return await openDatabase(path, version: dbVersion, onCreate: _onCreate);
   }
 
-  void _onCreate(Database db, int version) async {
+  static void _onCreate(Database db, int version) async {
     await db.execute(
       'CREATE TABLE task(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, question Text, target INTEGER, frequency INTEGER)',
     );

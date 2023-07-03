@@ -20,7 +20,7 @@ class TaskListWidget extends StatelessWidget {
           heroTag: 'addTask',
           onPressed: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => CreateTaskView()),
+            MaterialPageRoute(builder: (context) => const CreateTaskView()),
           ),
           tooltip: 'add',
           child: const Icon(Icons.add),

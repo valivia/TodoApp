@@ -73,7 +73,7 @@ class Task extends ChangeNotifier {
   }
 
   Future<void> upsert() async {
-    final db = await DbService.instance.database;
+    final db = await DbService().database;
     if (id == null) {
       _id = await db.insert('task', toMap());
     } else {
@@ -82,14 +82,14 @@ class Task extends ChangeNotifier {
   }
 
   Future<void> delete() async {
-    final db = await DbService.instance.database;
+    final db = await DbService().database;
     await db.delete('task', where: 'id = ?', whereArgs: [id]);
   }
 
   // Progress
   Future<void> loadProgress() async {
     if (kDebugMode) print("Loading progress for task $id");
-    final db = await DbService.instance.database;
+    final db = await DbService().database;
     final progress = await db.query('progress',
         where: 'taskId = ?', whereArgs: [id], orderBy: 'date DESC');
     _progress = progress.map((entry) => Progress.fromMapObject(entry)).toList();
