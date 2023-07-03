@@ -55,18 +55,20 @@ class HomeView extends StatelessWidget {
                 shrinkWrap: true,
                 children: const [
                   DateSelector(),
+                  SizedBox(height: 16),
                   PedometerWidget(),
-                  SizedBox(height: 32.0),
+                  SizedBox(height: 16.0),
                   TaskListWidget(),
                 ],
               ),
               if (showTextWidget)
                 TextDisplayWidget(
-                    onTap: () {
-                      dailytasks.date = today;
-                    },
-                    text:
-                        "You're looking at a previous date. Click here to return to the current day.")
+                  onTap: () {
+                    dailytasks.date = today;
+                  },
+                  text:
+                      "You're looking at a previous date. Click here to return to the current day.",
+                ),
             ],
           ),
         ),
