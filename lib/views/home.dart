@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_flutter/views/settings.dart';
 import 'package:todo_flutter/widgets/date_selector.dart';
+import 'package:todo_flutter/widgets/pedometer.dart';
 
 import '../state/daily_tasks.dart';
 import '../widgets/task_list.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+  const HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,8 @@ class HomeView extends StatelessWidget {
           child: Column(
             children: [
               DateSelector(),
+              PedometerWidget(),
+              SizedBox(height: 32.0),
               TaskListWidget(),
             ],
           ),
