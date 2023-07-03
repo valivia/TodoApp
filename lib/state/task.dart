@@ -94,12 +94,6 @@ class Task extends ChangeNotifier {
         where: 'taskId = ?', whereArgs: [id], orderBy: 'date DESC');
     _progress = progress.map((entry) => Progress.fromMapObject(entry)).toList();
     _streak = getStreak();
-
-    if (kDebugMode) {
-      for (var element in _progress) {
-        print('progress db entry: $element');
-      }
-    }
   }
 
   Future<void> addProgress(Progress progress) async {
