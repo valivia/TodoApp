@@ -3,6 +3,8 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 
+import 'state/task.dart';
+
 class DbService {
   DbService._internal() {
     // if (_database == null) database;
@@ -23,9 +25,8 @@ class DbService {
   Future<Database> initDB() async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'task.db');
-    if (kDebugMode) {
-      print('path is $path');
-    }
+    if (kDebugMode) print('path is $path');
+
     return await openDatabase(path, version: dbVersion, onCreate: _onCreate);
   }
 
@@ -35,7 +36,14 @@ class DbService {
     );
 
     await db.execute(
-      'CREATE TABLE progress(id INTEGER PRIMARY KEY, taskId INTEGER, value INTEGER, date TEXT)',
+      'CREATE TABLE progress(id INTEGER PRIMARY KEY, taskId INTEGER, value INTEGER, date INTEGER, FOREIGN KEY(taskId) REFERENCES task(id), UNIQUE(taskId, date) ON CONFLICT FAIL)',
     );
+  }
+
+  // Utils
+  Future<List<Task>> getTasks(DateTime date) async {
+    final db = await database;
+    final tasks = await db.query('task');
+    return tasks.map((e) => Task.fromMapObject(e)).toList();
   }
 }

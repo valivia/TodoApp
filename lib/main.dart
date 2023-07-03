@@ -8,6 +8,7 @@ import 'state/daily_tasks.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DbService.instance.initDB();
+  await DailyTasks().loadTasks();
   runApp(const App());
 }
 
@@ -20,7 +21,7 @@ class App extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => DailyTasks(),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Todo App',
         theme: darkTheme,
         home: const HomeView(),
       ),
