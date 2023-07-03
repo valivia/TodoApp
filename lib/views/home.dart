@@ -17,7 +17,7 @@ class HomeView extends StatelessWidget {
     // View
     final view = GestureDetector(
       onHorizontalDragEnd: (details) {
-        int sensitivity = 10;
+        int sensitivity = 200;
         if (details.velocity.pixelsPerSecond.dx > sensitivity) {
           dailytasks.date = dailytasks.date.subtract(const Duration(days: 1));
         } else if (details.velocity.pixelsPerSecond.dx < -sensitivity) {
