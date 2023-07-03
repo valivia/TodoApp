@@ -18,7 +18,7 @@ class TaskView extends StatelessWidget {
         style: Theme.of(context).textTheme.headlineMedium,
         children: [
           TextSpan(
-            text: '${42}',
+            text: task.streak.toString(),
             style: TextStyle(color: Theme.of(context).colorScheme.primary),
           ),
           const TextSpan(text: ' day streak'),
