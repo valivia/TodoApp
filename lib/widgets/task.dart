@@ -83,7 +83,7 @@ class TaskWidget extends StatelessWidget {
             child: button,
           ),
           title: Text(task.title),
-          subtitle: Text('${task.streak} day streak'),
+          subtitle: task.streak > 0 ? Text('${task.streak} day streak') : null,
         ),
       ),
     );

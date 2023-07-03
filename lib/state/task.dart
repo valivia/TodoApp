@@ -156,12 +156,17 @@ class Task extends ChangeNotifier {
 
   int getStreak() {
     int streak = 0;
-    DateTime date = DailyTasks.convertDate(DateTime.now());
+    DateTime today = DailyTasks.convertDate(DateTime.now());
+    DateTime date = today;
     for (var progress in _progress) {
       if (progress.date == date) {
         if (progress.value == _target) {
           streak++;
         } else {
+          if (progress.date == today) {
+            date = date.subtract(const Duration(days: 1));
+            continue;
+          }
           break;
         }
         date = date.subtract(const Duration(days: 1));
