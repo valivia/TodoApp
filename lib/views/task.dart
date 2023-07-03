@@ -45,6 +45,7 @@ class TaskView extends StatelessWidget {
       body: ListView(
         padding: pagePadding,
         children: [
+          const SizedBox(height: 32),
           Center(child: streakText),
           const SizedBox(height: 16),
           StreakDisplayWidget(task: task),
