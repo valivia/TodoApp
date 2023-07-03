@@ -1,11 +1,14 @@
+import 'package:flutter/foundation.dart';
+import 'package:todo_flutter/state/daily_tasks.dart';
+
 import '../db.dart';
 
 class Progress {
   // Fields
-  late int? _id;
+  int? _id;
   late int _taskId;
-  late int _value;
-  late DateTime _date;
+  late int _value = 0;
+  late DateTime _date = DailyTasks.convertDate(DateTime.now());
 
   // Constructors
   Progress(
@@ -14,6 +17,8 @@ class Progress {
     this._value,
     this._date,
   );
+
+  Progress.fromTaskId(this._taskId);
 
   // Getters
   int? get id => _id;
@@ -43,7 +48,7 @@ class Progress {
 
     map['taskId'] = _taskId;
     map['value'] = _value;
-    map['date'] = _date.toIso8601String();
+    map['date'] = _date.millisecondsSinceEpoch;
 
     return map;
   }
@@ -52,13 +57,14 @@ class Progress {
     _id = map['id'];
     _taskId = map['taskId'];
     _value = map['value'];
-    _date = DateTime.parse(map['date']);
+    _date = DateTime.fromMillisecondsSinceEpoch(map['date']);
   }
 
   Future<void> upsert() async {
     final db = await DbService.instance.database;
+    if (kDebugMode) print('Progress.upsert(): $this');
     if (id == null) {
-      await db.insert('progress', toMap());
+      _id = await db.insert('progress', toMap());
     } else {
       await db.update('progress', toMap(), where: 'id = ?', whereArgs: [id]);
     }
@@ -67,5 +73,12 @@ class Progress {
   Future<void> delete() async {
     final db = await DbService.instance.database;
     await db.delete('progress', where: 'id = ?', whereArgs: [id]);
+  }
+
+  // Other methods
+
+  @override
+  String toString() {
+    return 'Progress(id: $id, taskId: $taskId, value: $value, date: $date)';
   }
 }
