@@ -27,7 +27,6 @@ class CreateTaskForm extends StatelessWidget {
     return Form(
       key: formKey,
       child: Column(
-        // runSpacing: 8.0,
         children: <Widget>[
           // Name
           TextFormField(
