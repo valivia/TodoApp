@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_flutter/util.dart';
 import 'package:todo_flutter/views/settings.dart';
 import 'package:todo_flutter/widgets/date_selector.dart';
 import 'package:todo_flutter/widgets/pedometer.dart';
@@ -26,6 +27,20 @@ class HomeView extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.surface,
+          shape: rounded,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SettingsView(),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
         body: const Padding(
           padding: EdgeInsets.all(16.0),

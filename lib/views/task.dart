@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_flutter/util.dart';
 import '../state/task.dart';
 import '../state/daily_tasks.dart';
 import '../widgets/date_selector.dart';
@@ -39,6 +40,7 @@ class TaskView extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(task.title),
+          shape: rounded,
           actions: [
             IconButton(
               icon: const Icon(Icons.delete),

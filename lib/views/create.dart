@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_flutter/util.dart';
 
 import '../state/task.dart';
 import '../state/daily_tasks.dart';
@@ -126,7 +127,10 @@ class CreateTaskView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Create Task')),
+      appBar: AppBar(
+        title: const Text('Create Task'),
+        shape: rounded,
+      ),
       body: const Padding(
         padding: EdgeInsets.all(16.0),
         child: CreateTaskForm(),
