@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:pedometer/pedometer.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class PedometerWidget extends StatefulWidget {
   const PedometerWidget({super.key});
@@ -19,11 +20,22 @@ class _PedometerWidgetState extends State<PedometerWidget> {
   late StreamSubscription<StepCount> _stepCountStream;
   Duration _timeUntilReset = const Duration(minutes: 1);
 
+  void requestPermission() async {
+    PermissionStatus status = await Permission.activityRecognition.request();
+    if (status.isGranted) {
+      // Permission granted, continue with the pedometer functionality
+      startListening();
+      startDailyResetTimer();
+    } else {
+      // Permission denied, handle accordingly
+      // You can show an error message or disable the pedometer functionality
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    startListening();
-    startDailyResetTimer();
+    requestPermission();
   }
 
   void startListening() {
@@ -67,39 +79,6 @@ class _PedometerWidgetState extends State<PedometerWidget> {
   }
 
   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       height: 150,
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           const Text(
-//             'Step Count:',
-//             style: TextStyle(fontSize: 24),
-//           ),
-//           Text(
-//             _stepCount,
-//             style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
-//           ),
-//           // Text(
-//           //   'Last Recorded Step Count: $_lastRecordedStepCount', // Show the totalStepCount
-//           //   style: const TextStyle(fontSize: 18),
-//           // ),
-//           // const SizedBox(height: 16),
-//           // const Text(
-//           //   'Time Until Reset:',
-//           //   style: TextStyle(fontSize: 18),
-//           // ),
-//           // Text(
-//           //   formatDuration(_timeUntilReset),
-//           //   style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-//           // ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
   double get progressPercentage {
     double stepCount = double.parse(_stepCount);
     double stepGoal = 6000; // Replace with your step goal value
