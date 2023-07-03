@@ -60,7 +60,7 @@ class CreateTaskForm extends StatelessWidget {
           TextFormField(
             controller: targetController,
             validator: (value) =>
-                value!.isEmpty ? 'Please enter a question' : null,
+                value!.isEmpty ? 'Please enter a target' : null,
             keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
             decoration: const InputDecoration(
@@ -71,18 +71,18 @@ class CreateTaskForm extends StatelessWidget {
           ),
           const SizedBox(height: padding),
           // Frequency
-          TextFormField(
-            controller: frequencyController,
-            validator: (value) =>
-                value!.isEmpty ? 'Please enter a question' : null,
-            keyboardType: TextInputType.number,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            decoration: const InputDecoration(
-              labelText: 'Frequency',
-              hintText: 'Every X days',
-              border: formBorder,
-            ),
-          ),
+          // TextFormField(
+          //   controller: frequencyController,
+          //   validator: (value) =>
+          //       value!.isEmpty ? 'Please enter a question' : null,
+          //   keyboardType: TextInputType.number,
+          //   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          //   decoration: const InputDecoration(
+          //     labelText: 'Frequency',
+          //     hintText: 'Every X days',
+          //     border: formBorder,
+          //   ),
+          // ),
           // Submit
           const Spacer(
             flex: 2,
@@ -94,7 +94,8 @@ class CreateTaskForm extends StatelessWidget {
                   titleController.text,
                   questionController.text,
                   int.parse(targetController.text),
-                  int.parse(frequencyController.text),
+                  // int.parse(frequencyController.text),
+                  1,
                 );
 
                 dailytasks.addTask(task);
