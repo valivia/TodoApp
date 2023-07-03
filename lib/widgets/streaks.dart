@@ -19,8 +19,6 @@ class StreakBar extends StatelessWidget {
     const double maxWidth = 250.0;
     final double width = (streak.duration / maxDuration) * maxWidth;
 
-    print({streak, maxDuration, width});
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
