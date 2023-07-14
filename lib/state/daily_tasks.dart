@@ -12,13 +12,6 @@ class DailyTasks extends ChangeNotifier {
     return _singleton;
   }
 
-  int _stepTarget = 10000;
-  int get stepTarget => _stepTarget;
-  set stepTarget(int stepTarget) {
-    _stepTarget = stepTarget;
-    notifyListeners();
-  }
-
   // Tasks
   List<Task> _tasks = [];
   List<Task> get tasks => _tasks;

@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:todo_flutter/util.dart';
 import 'package:todo_flutter/views/settings.dart';
 import 'package:todo_flutter/widgets/date_selector.dart';
-import 'package:todo_flutter/widgets/pedometer.dart';
 
 import '../widgets/popup.dart';
 import '../state/daily_tasks.dart';
@@ -54,8 +53,6 @@ class HomeView extends StatelessWidget {
                 padding: pagePadding,
                 children: const [
                   DateSelector(),
-                  SizedBox(height: 16),
-                  PedometerWidget(),
                   SizedBox(height: 16),
                   TaskListWidget(),
                 ],

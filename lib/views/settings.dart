@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_flutter/util.dart';
 import '../state/daily_tasks.dart';
@@ -15,10 +14,6 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
 
-    final dailytasks = Provider.of<DailyTasks>(context);
-    TextEditingController stepTargetController =
-        TextEditingController(text: dailytasks.stepTarget.toString());
-
     return Scaffold(
       appBar: AppBar(shape: rounded),
       body: Padding(
@@ -27,26 +22,12 @@ class SettingsView extends StatelessWidget {
             key: formKey,
             child: Column(
               children: [
-                TextFormField(
-                  controller: stepTargetController,
-                  validator: (value) =>
-                      value!.isEmpty ? 'Please enter a target' : null,
-                  decoration: const InputDecoration(
-                    labelText: 'Daily Step Target',
-                    hintText: 'E.g. 1000',
-                    border: formBorder,
-                  ),
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                ),
                 const Spacer(
                   flex: 2,
                 ),
                 ElevatedButton(
                   onPressed: () {
                     if (!formKey.currentState!.validate()) return;
-                    dailytasks.stepTarget =
-                        int.parse(stepTargetController.text);
                     Navigator.pop(context);
                   },
                   style: ButtonStyle(
